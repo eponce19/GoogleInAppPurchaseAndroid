@@ -1,69 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.apps.gluonix.googleinapppurchase.MainActivity">
+    tools:context="com.apps.gluonix.googleinapppurchase.MainActivity"
+    android:weightSum="1">
 
-    <TextView
+    <ScrollView
+        android:layout_width="186dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.29">
+
+        <TextView
+            android:id="@+id/detailsinfo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/view_activity"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="69dp"
+            android:layout_weight="0.38"
+            android:scrollbars="vertical"
+            android:maxLines = "15"
+            android:text="details" />
+    </ScrollView>
+
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Payment options"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.105"
-        android:id="@+id/textView2"
-        android:layout_above="@+id/pay_premium"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="27dp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="0.92">
 
-    <Button
-        android:id="@+id/pay_premium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Monthly Subscription"
-        tools:layout_editor_absoluteX="96dp"
-        tools:layout_editor_absoluteY="270dp"
-        android:layout_marginBottom="22dp"
-        android:layout_above="@+id/pay_activity"
-        android:layout_centerHorizontal="true" />
+        <Button
+            android:id="@+id/pay_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pay_premium"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="0.28"
+            android:text="Buy Activity"
+            tools:layout_editor_absoluteX="134dp"
+            tools:layout_editor_absoluteY="124dp" />
 
-    <Button
-        android:id="@+id/pay_activity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Buy Activity"
-        tools:layout_editor_absoluteX="134dp"
-        tools:layout_editor_absoluteY="124dp"
-        android:layout_above="@+id/view_activity"
-        android:layout_alignRight="@+id/view_activity"
-        android:layout_alignEnd="@+id/view_activity"
-        android:layout_marginBottom="52dp" />
+        <Button
+            android:id="@+id/pay_premium"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="Monthly Subscription"
+            tools:layout_editor_absoluteX="96dp"
+            tools:layout_editor_absoluteY="270dp"
+            android:layout_weight="0.12" />
 
-    <Button
-        android:id="@+id/view_activity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="View Activity"
-        tools:layout_editor_absoluteX="131dp"
-        tools:layout_editor_absoluteY="194dp"
-        android:layout_marginBottom="71dp"
-        android:layout_alignBottom="@+id/view_premium"
-        android:layout_centerHorizontal="true" />
+        <Button
+            android:id="@+id/view_activity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pay_premium"
+            android:layout_marginTop="57dp"
+            android:layout_toStartOf="@+id/detailsinfo"
+            android:layout_weight="0.42"
+            android:text="View Activity"
+            tools:layout_editor_absoluteX="131dp"
+            tools:layout_editor_absoluteY="194dp" />
 
-    <Button
-        android:id="@+id/view_premium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Premium Section"
-        tools:layout_editor_absoluteX="118dp"
-        tools:layout_editor_absoluteY="338dp"
-        android:layout_marginBottom="131dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+    </LinearLayout>
 
-</RelativeLayout>
+
+</LinearLayout>

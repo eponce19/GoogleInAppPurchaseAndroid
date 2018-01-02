@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 
 import com.anjlab.android.iab.v3.BillingProcessor;
+import com.anjlab.android.iab.v3.SkuDetails;
 import com.anjlab.android.iab.v3.TransactionDetails;
 
 import org.apache.http.HttpResponse;
@@ -23,6 +24,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
+import org.json.JSONException;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -32,47 +34,35 @@ import java.io.InputStreamReader;
 public class MainActivity extends AppCompatActivity implements BillingProcessor.IBillingHandler {
 
     BillingProcessor bp;
-    public TextView textView;
-    public Button pay_premium, pay_activity, view_activity, view_premium;
+    public TextView detailsView;
+    public Button pay_premium, pay_activity, view_activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        String PLAY_LICENSE = "your_license";
+        String PLAY_LICENSE = "";
+//      bp = new BillingProcessor(this, null, this);
         bp = new BillingProcessor(this, PLAY_LICENSE, this);
 
-//      If you want to test use
-//      bp = new BillingProcessor(this, null, this);
-        // textView = (TextView)findViewById(R.id.textView);
-
+        detailsView = (TextView)findViewById(R.id.detailsinfo);
         pay_premium = (Button)findViewById(R.id.pay_premium);
         pay_activity = (Button)findViewById(R.id.pay_activity);
-        view_premium = (Button)findViewById(R.id.view_premium);
         view_activity = (Button)findViewById(R.id.view_activity);
 
-        view_premium.setVisibility(View.INVISIBLE);
         view_activity.setVisibility(View.INVISIBLE);
 
         pay_premium.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bp.subscribe(MainActivity.this,"android.test.purchased");
+                bp.subscribe(MainActivity.this,"weekpremiumsubscription");
             }
         });
 
         pay_activity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bp.purchase(MainActivity.this,"android.test.purchased");
-            }
-        });
-
-        view_premium.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                Intent intent = new Intent(MainActivity.this, PremiumActivity.class);
-                startActivity(intent);
+                bp.purchase(MainActivity.this,"premiumactivity");
             }
         });
 
@@ -89,15 +79,19 @@ public class MainActivity extends AppCompatActivity implements BillingProcessor.
 
     @Override
     public void onProductPurchased(@NonNull String productId, @Nullable TransactionDetails details) {
-        Toast.makeText(this, "Your purchase was successful", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Your purchase was successful ", Toast.LENGTH_SHORT).show();
+        bp.consumePurchase(productId);
+        detailsView.setText(details.toString());
+
+
+        // Log.i("INFO", details.toString());
         // send to api purchasetoken, productid, date, orderid, developerpayload, purchasestate
         // new setPurchaseAPI(details).execute();
+        //   String sku = details.productId;
 
         //https://developers.google.com/android-publisher/api-ref/purchases/products
         //https://developers.google.com/android-publisher/api-ref/purchases/subscriptions
-        view_premium.setVisibility(View.VISIBLE);
         view_activity.setVisibility(View.VISIBLE);
-        pay_premium.setVisibility(View.INVISIBLE);
 
     }
 
@@ -111,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements BillingProcessor.
         if (errorCode == 101){
             Toast.makeText(this, "You dont have a Google Account", Toast.LENGTH_SHORT).show();
         }else{
-            Toast.makeText(this, "Something were wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Something were wrong" + errorCode, Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -140,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements BillingProcessor.
 class setPurchaseAPI extends AsyncTask<String, TransactionDetails, String> {
 
     private static final String API_URL = "http://example.com/api/v3/purchase?";
-    private static final String API_KEY = "api_key";
+    private static final String API_KEY = "";
     private TransactionDetails details;
 
     public setPurchaseAPI(TransactionDetails d){

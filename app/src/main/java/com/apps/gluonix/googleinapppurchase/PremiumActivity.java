@@ -65,13 +65,13 @@ public class PremiumActivity extends AppCompatActivity {
 class getActivitiesAPI extends AsyncTask<String, String, String> {
 
     private static final String API_URL = "http://example.com/api/v3/activities?";
-    private static final String API_KEY = "api_key";
-//    public Activity activity;
-//    private String activity_text;
-//
-//    public getActivitiesAPI(){
-//        this.activity_text = params[0];
-//    }
+    private static final String API_KEY = "";
+    //    public Activity activity;
+    //    private String activity_text;
+    //
+    //    public getActivitiesAPI(){
+    //        this.activity_text = params[0];
+    //    }
 
     protected void onPreExecute(){
 
